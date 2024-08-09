@@ -1,6 +1,9 @@
 # Digilib
 
-This is a back-end developer skill test assignment for CTARSA's Merdeka Campus Internship.
+This is a back-end developer skill test assignment
+for the Back-end Developer position at CTARSA Foundation,
+part of the [detik.com](https://www.detik.com/)'s
+Kampus Merdeka Batch 7 internship program.
 
 ## Project Requirements
 
@@ -23,12 +26,14 @@ Create a CMS (Content Management System) for content management that includes:
 -   List of Books
 -   List of Books with a filter based on Book Category
 -   Master Data Book Actions (Create, Read, Update, Delete and Upload File)
--   Book Data Form contains: Book Title, Book Category (dropdown), Description, Quantity, Book File Upload (PDF) and Book Cover Upload (jpeg/jpg/png)
+-   Book Data Form contains: Book Title, Book Category (dropdown), Description,
+    Quantity, Book File Upload (PDF) and Book Cover Upload (jpeg/jpg/png)
 -   List of Book Categories
 -   Master Data Book Category Actions (Create, Read, Update, and Delete)
 -   Book Data Form contains: Book Category Name
 -   Export Data (Excel/PDF) from Book Data
--   Access Rights (Privilege) are limited to only open, view, edit, and delete the List of Books according to the data created by the user itself (except admin)
+-   Access Rights (Privilege) are limited to only open, view, edit, and delete
+    the List of Books according to the data created by the user itself (except admin)
 
 ## Final Format
 
