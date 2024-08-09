@@ -1,0 +1,23 @@
+services:
+  mysql:
+    image: mysql:lts
+    container_name: digilib_mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin -h 127.0.0.1 ping -P 3306 -p${DB_PASSWORD} | grep 'mysqld is alive' || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  data:
