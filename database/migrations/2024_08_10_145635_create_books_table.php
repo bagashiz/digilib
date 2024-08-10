@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 
 return new class () extends Migration {
     /**
@@ -12,7 +12,9 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->ulid()->primary()->default(Str::ulid());
+            $table->id();
+            $table->uuid('uid')->default(DB::raw('(UUID())'));
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title')->index();
             $table->string('author')->index();
             $table->text('description');

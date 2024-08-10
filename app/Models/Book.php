@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Book extends Model
 {
@@ -21,11 +23,21 @@ class Book extends Model
     ];
 
     /**
+    * Many to one relationship with User
+    *
+    * @return BelongsTo<User, Book>
+    */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
     * Many to many relationship with Category
     *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Category>
+    * @return BelongsToMany<Category>
     */
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
