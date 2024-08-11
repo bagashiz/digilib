@@ -1,8 +1,10 @@
 <?php
 
+use App\Livewire\AddBook;
 use App\Livewire\ListBooks;
 use App\Livewire\Login;
 use App\Livewire\Register;
+use App\Livewire\ShowBook;
 use App\Livewire\UserSettings;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +35,9 @@ Route::get('/logout', function () {
 // User routes
 Route::get('/settings', UserSettings::class)
     ->middleware('auth')->name('settings');
+
+// Book routes
+Route::get('/books', AddBook::class)
+    ->middleware('auth')->name('books.create');
+Route::get('/books/{uid}', ShowBook::class)
+    ->middleware('auth')->name('books.show');
