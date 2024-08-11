@@ -39,11 +39,13 @@ class AddBookForm extends Form
             $validated = $this->validate();
 
             if ($this->coverImage !== null) {
-                $cover = $this->coverImage->store(path: 'public/covers');
+                $cover = $this->coverImage->storePublicly(path: 'covers');
+                $coverUrl =  asset('storage/' . $cover);
             }
 
             if ($this->pdfFile !== null) {
-                $pdf = $this->pdfFile->store(path: 'public/books');
+                $pdf = $this->pdfFile->storePublicly(path: 'books');
+                $pdfUrl =  asset('storage/' . $pdf);
             }
 
             Book::create([
@@ -51,8 +53,8 @@ class AddBookForm extends Form
                 'title' => trim($validated['title']),
                 'author' => trim($validated['author']),
                 'description' => trim($validated['description']),
-                'cover_image' => $cover ?? null,
-                'pdf_file' => $pdf ?? null,
+                'cover_image' => $coverUrl ?? null,
+                'pdf_file' => $pdfUrl ?? null,
             ]);
         } catch (QueryException $e) {
             if (is_array($e->errorInfo) && count($e->errorInfo) > 1) {

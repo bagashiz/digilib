@@ -32,6 +32,7 @@ class ShowBook extends Component
                 abort(403);
             }
 
+            $book->delete();
             $this->success('Book deleted successfully!');
             $this->redirect('/', navigate: true);
         } catch (\Exception $e) {
