@@ -8,12 +8,14 @@ export default {
         "./app/Livewire/**/**/*.php",
 
         // Add mary
-        "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
+        "./vendor/robsontenorio/mary/src/View/Components/**/*.php",
     ],
     theme: {
         extend: {},
     },
-
+    daisyui: {
+        themes: ["retro"],
+    },
     // Add daisyUI
-    plugins: [require("daisyui")]
-}
+    plugins: [require("daisyui")],
+};

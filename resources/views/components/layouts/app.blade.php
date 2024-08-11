@@ -1,58 +1,70 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ isset($title) ? $title.' - '.config('app.name') : config('app.name') }}</title>
+    <title>{{ isset($title) ? $title . ' - ' . config('app.name') : config('app.name') }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
 
-    {{-- NAVBAR mobile only --}}
-    <x-nav sticky class="lg:hidden">
+<body class="font-sans antialiased">
+
+    {{-- The navbar with `sticky` and `full-width` --}}
+    <x-nav sticky full-width>
+
         <x-slot:brand>
+            {{-- Drawer toggle for "main-drawer" --}}
+            @if ($user = auth()->user())
+                <label for="main-drawer" class="lg:hidden mr-3">
+                    <x-icon name="o-bars-3" class="cursor-pointer" />
+                </label>
+            @endif
+
+            {{-- Brand --}}
             <x-app-brand />
         </x-slot:brand>
-        <x-slot:actions>
-            <label for="main-drawer" class="lg:hidden me-3">
-                <x-icon name="o-bars-3" class="cursor-pointer" />
-            </label>
-        </x-slot:actions>
+
+        {{-- Right side actions --}}
+        @if ($user != auth()->user())
+            <x-slot:actions>
+                <x-button label="Register" icon="o-user-plus" link="/register" class="btn-ghost btn-sm" responsive />
+                <x-button label="Login" icon="o-lock-open" link="/login" class="btn-ghost btn-sm" responsive />
+            </x-slot:actions>
+        @endif
     </x-nav>
 
-    {{-- MAIN --}}
-    <x-main full-width>
-        {{-- SIDEBAR --}}
-        <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit">
+    {{-- The main content with `full-width` --}}
+    <x-main with-nav full-width>
 
-            {{-- BRAND --}}
-            <x-app-brand class="p-5 pt-3" />
-
-            {{-- MENU --}}
-            <x-menu activate-by-route>
+        {{-- This is a sidebar that works also as a drawer on small screens --}}
+        {{-- Notice the `main-drawer` reference here --}}
+        @if ($user = auth()->user())
+            <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200">
 
                 {{-- User --}}
-                @if($user = auth()->user())
-                    <x-menu-separator />
+                <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="pt-2">
+                    <x-slot:actions>
+                        <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff"
+                            no-wire-navigate link="/logout" />
+                    </x-slot:actions>
+                </x-list-item>
 
-                    <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="-mx-2 !-my-2 rounded">
-                        <x-slot:actions>
-                            <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" no-wire-navigate link="/logout" />
-                        </x-slot:actions>
-                    </x-list-item>
+                <x-menu-separator />
 
-                    <x-menu-separator />
-                @endif
-
-                <x-menu-item title="Hello" icon="o-sparkles" link="/" />
-                <x-menu-sub title="Settings" icon="o-cog-6-tooth">
-                    <x-menu-item title="Wifi" icon="o-wifi" link="####" />
-                    <x-menu-item title="Archives" icon="o-archive-box" link="####" />
-                </x-menu-sub>
-            </x-menu>
-        </x-slot:sidebar>
+                {{-- Activates the menu item when a route matches the `link` property --}}
+                <x-menu activate-by-route>
+                    <x-menu-item title="Home" icon="o-home" link="/" />
+                    <x-menu-item title="Messages" icon="o-envelope" link="###" />
+                    <x-menu-sub title="Settings" icon="o-cog-6-tooth">
+                        <x-menu-item title="Wifi" icon="o-wifi" link="####" />
+                        <x-menu-item title="Archives" icon="o-archive-box" link="####" />
+                    </x-menu-sub>
+                </x-menu>
+            </x-slot:sidebar>
+        @endif
 
         {{-- The `$slot` goes here --}}
         <x-slot:content>
@@ -61,6 +73,7 @@
     </x-main>
 
     {{--  TOAST area --}}
-    <x-toast />
+    <x-toast position="toast-top toast-center" />
 </body>
+
 </html>
