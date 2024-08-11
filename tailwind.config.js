@@ -14,7 +14,7 @@ export default {
         extend: {},
     },
     daisyui: {
-        themes: ["retro"],
+        themes: ["dark"],
     },
     // Add daisyUI
     plugins: [require("daisyui")],

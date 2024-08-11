@@ -12,8 +12,7 @@
         <div class="flex justify-center">
             <p class="text-sm">
                 Don't have an account?
-                <a href="/register" wire:navigate
-                    class="text-sm text-primary-content hover:text-accent hover:underline">
+                <a href="/register" wire:navigate class="text-sm text-primary hover:text-accent hover:underline">
                     <b>Register</b>
                 </a>
             </p>

@@ -28,12 +28,14 @@
         </x-slot:brand>
 
         {{-- Right side actions --}}
-        @if ($user != auth()->user())
-            <x-slot:actions>
+        <x-slot:actions>
+            @if ($user = auth()->user())
+                <x-button label="Add Books" icon="o-book-open" link="/books" class="btn-ghost btn-sm" responsive />
+            @else
                 <x-button label="Register" icon="o-user-plus" link="/register" class="btn-ghost btn-sm" responsive />
                 <x-button label="Login" icon="o-lock-open" link="/login" class="btn-ghost btn-sm" responsive />
-            </x-slot:actions>
-        @endif
+            @endif
+        </x-slot:actions>
     </x-nav>
 
     {{-- The main content with `full-width` --}}
@@ -56,12 +58,8 @@
 
                 {{-- Activates the menu item when a route matches the `link` property --}}
                 <x-menu activate-by-route>
-                    <x-menu-item title="Home" icon="o-home" link="/" />
-                    <x-menu-item title="Messages" icon="o-envelope" link="###" />
-                    <x-menu-sub title="Settings" icon="o-cog-6-tooth">
-                        <x-menu-item title="Wifi" icon="o-wifi" link="####" />
-                        <x-menu-item title="Archives" icon="o-archive-box" link="####" />
-                    </x-menu-sub>
+                    <x-menu-item title="Books" icon="o-book-open" link="/" />
+                    <x-menu-item title="Settings" icon="o-cog-6-tooth" link="/settings" />
                 </x-menu>
             </x-slot:sidebar>
         @endif
