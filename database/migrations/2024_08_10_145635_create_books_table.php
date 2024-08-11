@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->string('title')->index();
             $table->string('author')->index();
             $table->text('description');
-            $table->integer('quantity')->default(0);
+            $table->integer('quantity')->default(1);
             $table->string('cover_image')->nullable();
             $table->string('pdf_file')->nullable();
             $table->timestampsTz();

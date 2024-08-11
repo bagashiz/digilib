@@ -11,10 +11,10 @@
 
     <!-- TABLE  -->
     <x-card>
-        <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy">
-            @scope('actions', $user)
-                <x-button icon="o-trash" wire:click="delete({{ $user['id'] }})" spinner
-                    class="btn-ghost btn-sm text-red-500" />
+        <x-table :headers="$headers" :rows="$books" :sort-by="$sortBy">
+            @scope('actions', $book)
+                <x-button icon="o-eye" link="{{ route('books.show', $book['uid']) }}"
+                    class="btn-ghost btn-sm text-green-500" />
             @endscope
         </x-table>
     </x-card>

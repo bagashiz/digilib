@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Book;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -16,7 +17,7 @@ class ListBooks extends Component
     public bool $drawer = false;
 
     /** @var array{column: string, direction: string} */
-    public array $sortBy = ['column' => 'name', 'direction' => 'asc'];
+    public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
 
     // Clear filters
     public function clear(): void
@@ -25,15 +26,6 @@ class ListBooks extends Component
         $this->success('Filters cleared.', position: 'toast-bottom');
     }
 
-    /**
-     * Delete action
-     *
-     * @param int $id
-     */
-    public function delete($id): void
-    {
-        $this->warning("Will delete #$id", 'It is fake.', position: 'toast-bottom');
-    }
 
     /**
      * Table headers
@@ -44,31 +36,42 @@ class ListBooks extends Component
     {
         return [
             ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
-            ['key' => 'name', 'label' => 'Name', 'class' => 'w-64'],
-            ['key' => 'age', 'label' => 'Age', 'class' => 'w-20'],
-            ['key' => 'email', 'label' => 'E-mail', 'sortable' => false],
+            ['key' => 'title', 'label' => 'Title', 'class' => 'w-48'],
+            ['key' => 'author', 'label' => 'Author', 'class' => 'w-36'],
+            ['key' => 'description', 'label' => 'Description', 'class' => 'w-96', 'sortable' => false],
+            ['key' => 'quantity', 'label' => 'qty', 'class' => 'w-1', 'sortable' => false],
         ];
     }
 
     /**
-     * For demo purpose, this is a static collection.
+     * Get books
      *
-     * On real projects you do it with Eloquent collections.
-     * Please, refer to maryUI docs to see the eloquent examples.
-     *
-     * @return Collection<int, array{id: int, name: string, email: string, age: int}>
+     * @return Collection<int, Book>
      */
-    public function users(): Collection
+    public function books(): Collection
     {
-        return collect([
-            ['id' => 1, 'name' => 'Mary', 'email' => 'mary@mary-ui.com', 'age' => 23],
-            ['id' => 2, 'name' => 'Giovanna', 'email' => 'giovanna@mary-ui.com', 'age' => 7],
-            ['id' => 3, 'name' => 'Marina', 'email' => 'marina@mary-ui.com', 'age' => 5],
-        ])
-            ->sortBy([[...array_values($this->sortBy)]])
-            ->when($this->search, function (Collection $collection) {
-                return $collection->filter(fn (array $item) => str($item['name'])->contains($this->search, true));
-            });
+        $user = auth()->user();
+        if (!$user) {
+            return collect();
+        }
+
+        $books = Book::where('user_id', $user->id)
+            ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
+            ->when($this->search, function ($query) {
+                return $query->where('title', 'like', "%{$this->search}%")
+                    ->orWhere('author', 'like', "%{$this->search}%");
+            })
+            ->get();
+
+        $books = $books->map(function ($book) {
+            $words = explode(' ', $book->description);
+            if (count($words) > 20) {
+                $book->description = implode(' ', array_slice($words, 0, 20)) . '...';
+            }
+            return $book;
+        });
+
+        return $books;
     }
 
 
@@ -80,7 +83,7 @@ class ListBooks extends Component
     public function render(): View
     {
         return view('livewire.list-books', [
-            'users' => $this->users(),
+            'books' => $this->books(),
             'headers' => $this->headers()
         ]);
     }
