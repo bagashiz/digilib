@@ -3,6 +3,7 @@
 use App\Livewire\ListBooks;
 use App\Livewire\Login;
 use App\Livewire\Register;
+use App\Livewire\UserSettings;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,5 +27,9 @@ Route::get('/login', Login::class)
     ->middleware('guest')->name('login');
 Route::get('/logout', function () {
     auth()->logout();
-    return redirect('/login');
+    return redirect('login');
 })->middleware('auth')->name('logout');
+
+// User routes
+Route::get('/settings', UserSettings::class)
+    ->middleware('auth')->name('settings');
