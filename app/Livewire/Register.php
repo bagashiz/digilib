@@ -17,19 +17,29 @@ class Register extends Component
 
     /**
      * Register handler
+     *
+     * @return void
      */
     public function register(): void
     {
-        try {
-            $this->form->create();
-            $this->success('User created successfully! Please login');
-            $this->redirect('/login', navigate: true);
-        } catch (\Exception $e) {
-            if (!$e instanceof ValidationException) {
-                $this->addError('form.email', $e->getMessage());
-            }
-            $this->form->reset('password');
+        $this->form->create();
+        $this->success('User created successfully! Please login');
+        $this->redirect('/login', navigate: true);
+    }
+
+    /**
+     * Exception hook
+     *
+     * @param \Exception $e
+     * @param mixed $stopPropagation
+     */
+    public function exception(\Exception $e, mixed $stopPropagation): void
+    {
+        if (!$e instanceof ValidationException) {
+            $this->addError('form.email', $e->getMessage());
         }
+        $this->form->reset('password');
+        $stopPropagation();
     }
 
     /**

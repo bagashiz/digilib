@@ -22,8 +22,8 @@ class AddBookForm extends Form
     #[Validate('nullable|image|max:2048')]
     public ?TemporaryUploadedFile $coverImage = null;
 
-    #[Validate('nullable|file')]
-    public ?TemporaryUploadedFile $pdfFile = null;
+    #[Validate('required|file|max:10240')]
+    public TemporaryUploadedFile $pdfFile;
 
 
     /**
@@ -38,23 +38,16 @@ class AddBookForm extends Form
         try {
             $validated = $this->validate();
 
-            if ($this->coverImage !== null) {
-                $cover = $this->coverImage->storePublicly(path: 'covers');
-                $coverUrl =  asset('storage/' . $cover);
-            }
-
-            if ($this->pdfFile !== null) {
-                $pdf = $this->pdfFile->storePublicly(path: 'books');
-                $pdfUrl =  asset('storage/' . $pdf);
-            }
+            $coverUrl = $this->coverImage ? 'storage/' . $this->coverImage->store(path: 'covers') : null;
+            $pdfUrl =  'storage/' . $this->pdfFile->store(path: 'books');
 
             Book::create([
                 'user_id' => $userId,
                 'title' => trim($validated['title']),
                 'author' => trim($validated['author']),
                 'description' => trim($validated['description']),
-                'cover_image' => $coverUrl ?? null,
-                'pdf_file' => $pdfUrl ?? null,
+                'cover_image' => $coverUrl,
+                'pdf_file' => $pdfUrl,
             ]);
         } catch (QueryException $e) {
             if (is_array($e->errorInfo) && count($e->errorInfo) > 1) {

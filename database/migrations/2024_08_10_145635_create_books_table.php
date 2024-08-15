@@ -20,7 +20,7 @@ return new class () extends Migration {
             $table->text('description');
             $table->integer('quantity')->default(1);
             $table->string('cover_image')->nullable();
-            $table->string('pdf_file')->nullable();
+            $table->string('pdf_file');
             $table->timestampsTz();
             $table->unique(['title', 'author']);
         });

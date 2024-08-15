@@ -16,22 +16,35 @@ class AddBook extends Component
 
     public AddBookForm $form;
 
+    /**
+    * Add book handler
+    *
+    * @return void
+    */
     public function add(): void
     {
-        try {
-            $userId = auth()->id();
-            if (!$userId) {
-                abort(403);
-            }
-
-            $this->form->create((int) $userId);
-            $this->success('Book added successfully!');
-            $this->redirect('/', navigate: true);
-        } catch (\Exception $e) {
-            if (!$e instanceof ValidationException) {
-                $this->addError('form.title', $e->getMessage());
-            }
+        $userId = auth()->id();
+        if (!$userId) {
+            abort(403);
         }
+
+        $this->form->create((int) $userId);
+        $this->success('Book added successfully!');
+        $this->redirect('/', navigate: true);
+    }
+
+    /**
+     * Exception hook
+     *
+     * @param \Exception $e
+     * @param mixed $stopPropagation
+     */
+    public function exception(\Exception $e, mixed $stopPropagation): void
+    {
+        if (!$e instanceof ValidationException) {
+            $this->addError('form.title', $e->getMessage());
+        }
+        $stopPropagation();
     }
 
     /**

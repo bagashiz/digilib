@@ -14,19 +14,31 @@ class UserSettings extends Component
 
     public UserForm $form;
 
+    /**
+     * Update user handler
+     *
+     * @return void
+     */
     public function update(): void
     {
-        try {
-            $this->form->update();
-            $this->success('Account information updated successfully!');
-        } catch (\Exception $e) {
-            if (!$e instanceof ValidationException) {
-                $this->addError('form.email', $e->getMessage());
-            }
-            $this->form->reset('password');
-        }
+        $this->form->update();
+        $this->success('Account information updated successfully!');
     }
 
+    /**
+     * Exception hook
+     *
+     * @param \Exception $e
+     * @param mixed $stopPropagation
+     */
+    public function exception(\Exception $e, mixed $stopPropagation): void
+    {
+        if (!$e instanceof ValidationException) {
+            $this->addError('form.email', $e->getMessage());
+        }
+        $this->form->reset('password');
+        $stopPropagation();
+    }
 
     /**
      * Runs at the beginning of the first initial request

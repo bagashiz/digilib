@@ -16,19 +16,29 @@ class Login extends Component
 
     /**
      * Login handler
+     *
+     * @return void
      */
     public function login(): void
     {
-        try {
-            $this->form->authenticate();
-            $this->success('Login successful! Welcome back!');
-            $this->redirect('/', navigate: true);
-        } catch (\Exception $e) {
-            if (!$e instanceof ValidationException) {
-                $this->addError('form.email', $e->getMessage());
-            }
-            $this->form->reset('password');
+        $this->form->authenticate();
+        $this->success('Login successful! Welcome back!');
+        $this->redirect('/', navigate: true);
+    }
+
+    /**
+     * Exception hook
+     *
+     * @param \Exception $e
+     * @param mixed $stopPropagation
+     */
+    public function exception(\Exception $e, mixed $stopPropagation): void
+    {
+        if (!$e instanceof ValidationException) {
+            $this->addError('form.email', $e->getMessage());
         }
+        $this->form->reset('password');
+        $stopPropagation();
     }
 
     /**
