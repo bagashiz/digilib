@@ -5,8 +5,8 @@
             <p class="text-sm">Get started by creating a new account.</p>
         </div>
 
-        <x-input label="Name" wire:model.blur="form.name" placeholder="John Doe" icon="o-identification" clearable />
-        <x-input label="Email" wire:model.blur="form.email" placeholder="test@example.com" icon="o-user" type="email"
+        <x-input label="Name" wire:model.blur="form.name" placeholder="Your name" icon="o-identification" clearable />
+        <x-input label="Email" wire:model.blur="form.email" placeholder="Your email" icon="o-user" type="email"
             clearable />
         <x-input label="Password" wire:model.blur="form.password" icon="o-eye" type="password" clearable />
 

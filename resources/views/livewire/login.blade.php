@@ -5,8 +5,8 @@
             <p class="text-sm">Enter your credentials to access your account.</p>
         </div>
 
-        <x-input label="Email" wire:model.blur="form.email" placeholder="test@example.com" icon="o-user" type="email"
-            clearable />
+        <x-input label="Email" wire:model.blur="form.email" placeholder="Your registered email" icon="o-user"
+            type="email" clearable />
         <x-input label="Password" wire:model.blur="form.password" icon="o-eye" type="password" clearable />
 
         <div class="flex justify-center">

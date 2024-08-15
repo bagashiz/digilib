@@ -4,8 +4,8 @@
             <h2 class="whitespace-nowrap tracking-tight text-2xl font-bold">Update your account</h2>
             <p class="text-sm">Update your account information below.</p>
         </div>
-        <x-input label="Name" wire:model.blur="form.name" placeholder="John Doe" icon="o-identification" clearable />
-        <x-input label="Email" wire:model.blur="form.email" placeholder="test@example.com" icon="o-user" type="email"
+        <x-input label="Name" wire:model.blur="form.name" placeholder="Your new name" icon="o-identification" clearable />
+        <x-input label="Email" wire:model.blur="form.email" placeholder="Your new email" icon="o-user" type="email"
             clearable />
         <x-input label="Password" wire:model.blur="form.password" icon="o-eye" type="password" clearable />
 
