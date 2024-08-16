@@ -5,8 +5,16 @@
                 alt="{{ $book->title }}" class="object-fill" />
         </div>
         <div class="w-full sm:w-2/3">
-            <x-card title="{{ $book->title }}" subtitle="{{ $book->author }}" shadow separator>
-                {{ $book->description }}
+            <x-card title="{{ $book->title }}" subtitle="{{ $book->author }}" shadow>
+                <div class="mb-5">
+                    @foreach ($book->categories as $categories)
+                        <x-button class="btn-outline btn-sm">
+                            {{ $categories->name }}
+                        </x-button>
+                    @endforeach
+                </div>
+                <hr>
+                <p class="mt-5">{{ $book->description }}</p>
                 <x-slot:actions>
                     <x-button icon="o-book-open" link="{{ asset($book->pdf_file) }}" external spinner
                         class="btn-ghost btn-sm text-green-500" />

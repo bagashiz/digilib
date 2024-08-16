@@ -48,6 +48,17 @@ class AddBook extends Component
     }
 
     /**
+     * Runs at the beginning of the first initial request
+     *
+     * @return void
+     */
+    public function mount(): void
+    {
+        $this->form->fetchAllCategories();
+    }
+
+    /**
+    }
      * Runs at the beginning of every "subsequent" request
      *
      * @return void
