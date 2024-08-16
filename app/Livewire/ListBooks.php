@@ -6,6 +6,7 @@ use App\Models\Book;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -13,20 +14,13 @@ class ListBooks extends Component
 {
     use Toast;
 
+    #[Url]
     public string $search = '';
 
     public bool $drawer = false;
 
     /** @var array{column: string, direction: string} */
     public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
-
-    // Clear filters
-    public function clear(): void
-    {
-        $this->reset();
-        $this->success('Filters cleared.', position: 'toast-bottom');
-    }
-
 
     /**
      * Table headers
@@ -79,6 +73,17 @@ class ListBooks extends Component
         });
 
         return $books;
+    }
+
+    /**
+    * Search based on category
+    *
+    * @param string $category
+    * @return void
+    */
+    public function searchCategory(string $category): void
+    {
+        $this->search = $category;
     }
 
     /**

@@ -48,6 +48,17 @@ class ShowBook extends Component
     }
 
     /**
+    * Redirect to home with search category
+    *
+    * @param string $category
+    * @return void
+    */
+    public function searchCategory(string $category): void
+    {
+        $this->redirect('/?search=' . $category, navigate: true);
+    }
+
+    /**
      * Exception hook
      *
      * @param \Exception $e

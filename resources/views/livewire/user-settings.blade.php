@@ -10,7 +10,7 @@
         <x-input label="Password" wire:model.blur="form.password" icon="o-eye" type="password" clearable />
 
         <x-slot:actions>
-            <x-button label="Back" link="/" />
+            <x-button label="Back" link="/" icon="o-arrow-left-circle" />
             <x-button label="Update" class="btn-primary" type="submit" spinner="update" />
         </x-slot:actions>
     </x-form>
