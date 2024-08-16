@@ -30,7 +30,7 @@
         {{-- Right side actions --}}
         <x-slot:actions>
             @if ($user = auth()->user())
-                <x-button label="Add Books" icon="o-book-open" link="/books" class="btn-ghost btn-sm" responsive />
+                <x-button label="Add Books" icon="o-plus" link="/books" class="btn-ghost btn-sm" responsive />
             @else
                 <x-button label="Register" icon="o-user-plus" link="/register" class="btn-ghost btn-sm" responsive />
                 <x-button label="Login" icon="o-lock-open" link="/login" class="btn-ghost btn-sm" responsive />
@@ -50,7 +50,7 @@
                 <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="pt-2">
                     <x-slot:actions>
                         <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff"
-                            no-wire-navigate link="/logout" />
+                            @click="$dispatch('logout')" />
                     </x-slot:actions>
                 </x-list-item>
 

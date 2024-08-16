@@ -12,10 +12,20 @@
     <!-- TABLE  -->
     <x-card>
         <x-table :headers="$headers" :rows="$books" :sort-by="$sortBy">
+            @scope('cell_categories', $book)
+                @foreach ($book->categories as $category)
+                    <div class="flex items-center justify-center">
+                        <x-button label="{{ $category->name }}" class="btn-primary btn-xs text-xs mb-1" />
+                    </div>
+                @endforeach
+            @endscope
             @scope('actions', $book)
                 <x-button icon="o-eye" link="{{ route('books.show', $book['uid']) }}"
                     class="btn-ghost btn-sm text-green-500" />
             @endscope
+            <x-slot:empty>
+                <x-icon name="o-cube" label="Book not found." />
+            </x-slot:empty>
         </x-table>
     </x-card>
 

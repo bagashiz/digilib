@@ -27,10 +27,6 @@ Route::get('/register', Register::class)
     ->middleware('guest')->name('register');
 Route::get('/login', Login::class)
     ->middleware('guest')->name('login');
-Route::get('/logout', function () {
-    auth()->logout();
-    return redirect('login');
-})->middleware('auth')->name('logout');
 
 // User routes
 Route::get('/settings', UserSettings::class)

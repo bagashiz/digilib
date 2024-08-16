@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Book;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -35,11 +36,11 @@ class ListBooks extends Component
     public function headers(): array
     {
         return [
-            ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
             ['key' => 'title', 'label' => 'Title', 'class' => 'w-48'],
             ['key' => 'author', 'label' => 'Author', 'class' => 'w-36'],
-            ['key' => 'description', 'label' => 'Description', 'class' => 'w-96', 'sortable' => false],
-            ['key' => 'quantity', 'label' => 'qty', 'class' => 'w-1', 'sortable' => false],
+            ['key' => 'categories', 'label' => 'Categories', 'class' => 'w-20', 'sortable' => false],
+            ['key' => 'description', 'label' => 'Description',
+                'class' => 'w-96 hidden lg:table-cell', 'sortable' => false],
         ];
     }
 
@@ -56,17 +57,23 @@ class ListBooks extends Component
         }
 
         $books = Book::where('user_id', $user->id)
+            ->with(['categories' => function ($query) {
+                $query->select('name');
+            }])
             ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
             ->when($this->search, function ($query) {
                 return $query->where('title', 'like', "%{$this->search}%")
-                    ->orWhere('author', 'like', "%{$this->search}%");
+                    ->orWhere('author', 'like', "%{$this->search}%")
+                    ->orWhereHas('categories', function ($query) {
+                        $query->where('name', 'like', "%{$this->search}%");
+                    });
             })
             ->get();
 
         $books = $books->map(function ($book) {
             $words = explode(' ', $book->description);
-            if (count($words) > 20) {
-                $book->description = implode(' ', array_slice($words, 0, 20)) . '...';
+            if (count($words) > 10) {
+                $book->description = implode(' ', array_slice($words, 0, 10)) . '...';
             }
             return $book;
         });
@@ -74,6 +81,20 @@ class ListBooks extends Component
         return $books;
     }
 
+    /**
+    * Logout when the user clicks the logout button.
+    *
+    * @return void
+    */
+    #[On('logout')]
+    public function logout(): void
+    {
+        if (auth()->check()) {
+            auth()->logout();
+            $this->warning('You have been logged out!');
+            $this->redirect('/login', navigate: true);
+        }
+    }
 
     /**
      * Render the Livewire component.
