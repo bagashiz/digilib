@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\AddBook;
+use App\Livewire\EditBook;
 use App\Livewire\ListBooks;
 use App\Livewire\Login;
 use App\Livewire\Register;
@@ -37,3 +38,5 @@ Route::get('/books', AddBook::class)
     ->middleware('auth')->name('books.create');
 Route::get('/books/{uid}', ShowBook::class)
     ->middleware('auth')->name('books.show');
+Route::get('/books/{uid}/edit', EditBook::class)
+    ->middleware('auth')->name('books.edit');

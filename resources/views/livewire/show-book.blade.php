@@ -20,7 +20,7 @@
                 <x-slot:actions>
                     <x-button label="Read" icon="o-book-open" link="{{ asset($book->pdf_file) }}"
                         class="btn-ghost btn-sm text-green-500" external spinner responsive />
-                    <x-button label="Edit" icon="o-pencil-square" wire:click="update('{{ $book->uid }}')"
+                    <x-button label="Edit" icon="o-pencil-square" link="{{ route('books.edit', $book['uid']) }}"
                         class="btn-ghost btn-sm text-primary" spinner responsive />
                     <x-button label="Delete" icon="o-trash" wire:click="delete('{{ $book->uid }}')"
                         class="btn-ghost btn-sm text-red-500" spinner responsive />
