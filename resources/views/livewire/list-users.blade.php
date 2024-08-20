@@ -11,6 +11,7 @@
         <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy">
             @scope('actions', $user)
                 <x-button label="Delete" icon="o-trash" wire:click="delete('{{ $user->uid }}')"
+                    wire:confirm.prompt="Are you sure you want to delete this user?\n\nType DELETE to confirm|DELETE"
                     class="btn-ghost btn-sm text-red-500" spinner responsive />
             @endscope
             <x-slot:empty>

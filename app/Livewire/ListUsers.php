@@ -28,9 +28,10 @@ class ListUsers extends Component
     public function headers(): array
     {
         return [
-            ['key' => 'uid', 'label' => 'User', 'class' => 'w-64'],
-            ['key' => 'name', 'label' => 'Title', 'class' => 'w-48'],
-            ['key' => 'email', 'label' => 'Title', 'class' => 'w-36'],
+            ['key' => 'uid', 'label' => 'ID', 'class' => 'w-64'],
+            ['key' => 'name', 'label' => 'Full Name', 'class' => 'w-32'],
+            ['key' => 'email', 'label' => 'Email', 'class' => 'w-24'],
+            ['key' => 'role', 'label' => 'Role', 'class' => 'w-24'],
         ];
     }
 
