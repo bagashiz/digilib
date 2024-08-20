@@ -23,7 +23,8 @@
                     <x-button label="Edit" icon="o-pencil-square" link="{{ route('books.edit', $book['uid']) }}"
                         class="btn-ghost btn-sm text-primary" spinner responsive />
                     <x-button label="Delete" icon="o-trash" wire:click="delete('{{ $book->uid }}')"
-                        class="btn-ghost btn-sm text-red-500" spinner responsive />
+                        wire:confirm="Are you sure you want to delete this book?" class="btn-ghost btn-sm text-red-500"
+                        spinner responsive />
                 </x-slot:actions>
             </x-card>
         </div>

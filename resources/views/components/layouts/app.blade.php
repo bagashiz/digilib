@@ -62,7 +62,7 @@
                 <x-menu activate-by-route>
                     <x-menu-item title="Books" icon="o-book-open" link="/" />
                     @if ($user->role->value === 'admin')
-                        <x-menu-item title="Users" icon="o-book-open" link="/users" />
+                        <x-menu-item title="Users" icon="o-users" link="/users" />
                     @endif
                     <x-menu-item title="Settings" icon="o-cog-6-tooth" link="/settings" />
                 </x-menu>

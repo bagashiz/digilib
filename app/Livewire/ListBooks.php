@@ -18,8 +18,6 @@ class ListBooks extends Component
     #[Url]
     public string $search = '';
 
-    public bool $drawer = false;
-
     /** @var array{column: string, direction: string} */
     public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
 
@@ -160,7 +158,10 @@ class ListBooks extends Component
     {
         if (auth()->check()) {
             auth()->logout();
-            $this->warning('You have been logged out!', redirectTo: route('login'));
+            $this->warning(
+                'You have been logged out!',
+                redirectTo: route('login')
+            );
         }
     }
 

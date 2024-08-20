@@ -23,8 +23,10 @@ class Register extends Component
     public function register(): void
     {
         $this->form->create();
-        $this->success('User created successfully! Please login');
-        $this->redirect('/login', navigate: true);
+        $this->success(
+            'User created successfully! Please login',
+            redirectTo: route('login')
+        );
     }
 
     /**

@@ -22,8 +22,10 @@ class Login extends Component
     public function login(): void
     {
         $this->form->authenticate();
-        $this->success('Login successful! Welcome back!');
-        $this->redirect('/', navigate: true);
+        $this->success(
+            'Login successful! Welcome back!',
+            redirectTo: route('home')
+        );
     }
 
     /**

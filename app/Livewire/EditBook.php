@@ -30,8 +30,12 @@ class EditBook extends Component
         }
 
         $this->form->update((int) $userId);
-        $this->success('Book updated successfully!');
-        $this->redirect(route('books.show', [ 'uid' => $this->form->book->uid ]), navigate: true);
+        $this->success(
+            'Book updated successfully!',
+            redirectTo: route('books.show', [
+                'uid' => $this->form->book->uid
+            ])
+        );
     }
 
     /**

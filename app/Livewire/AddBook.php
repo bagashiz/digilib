@@ -29,8 +29,10 @@ class AddBook extends Component
         }
 
         $this->form->create((int) $userId);
-        $this->success('Book added successfully!');
-        $this->redirect('/', navigate: true);
+        $this->success(
+            'Book added successfully!',
+            redirectTo: route('home')
+        );
     }
 
     /**

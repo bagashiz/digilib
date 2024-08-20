@@ -44,8 +44,10 @@ class ShowBook extends Component
 
         $book->delete();
 
-        $this->success('Book deleted successfully!');
-        $this->redirect('/', navigate: true);
+        $this->success(
+            'Book deleted successfully!',
+            redirectTo: '/'
+        );
     }
 
     /**
