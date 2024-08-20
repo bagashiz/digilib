@@ -3,6 +3,7 @@
 use App\Livewire\AddBook;
 use App\Livewire\EditBook;
 use App\Livewire\ListBooks;
+use App\Livewire\ListUsers;
 use App\Livewire\Login;
 use App\Livewire\Register;
 use App\Livewire\ShowBook;
@@ -40,3 +41,7 @@ Route::get('/books/{uid}', ShowBook::class)
     ->middleware('auth')->name('books.show');
 Route::get('/books/{uid}/edit', EditBook::class)
     ->middleware('auth')->name('books.edit');
+
+// User routes
+Route::get('/users', ListUsers::class)
+    ->middleware('admin')->name('users.index');
