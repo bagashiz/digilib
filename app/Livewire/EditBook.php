@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\UserRole;
 use App\Livewire\Forms\EditBookForm;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\ValidationException;
@@ -55,8 +56,21 @@ class EditBook extends Component
      */
     public function mount(string $uid): void
     {
-        $this->form->fetchBook($uid);
-        $this->form->fetchAllCategories();
+        try {
+            $user = auth()->user();
+            if ($user === null) {
+                throw new \Exception('Unauthenticated', 401);
+            }
+
+            $book = $this->form->fetchBook($uid);
+            if ($book->user_id !== $user->id && $user->role !== UserRole::ADMIN) {
+                throw new \Exception('Can not edit the book of another user', 403);
+            }
+
+            $this->form->fetchAllCategories();
+        } catch (\Exception $e) {
+            $this->error($e->getMessage(), redirectTo: '/');
+        }
     }
 
     /**

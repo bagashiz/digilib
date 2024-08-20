@@ -29,9 +29,9 @@
 
         {{-- Right side actions --}}
         <x-slot:actions>
-            @if ($user = auth()->user())
+            @if ($user = auth()->user() && $user->role->value !== 'admin')
                 <x-button label="Add Books" icon="o-plus" link="/books" class="btn-ghost btn-sm" responsive />
-            @else
+            @elseif (!auth()->check())
                 <x-button label="Register" icon="o-user-plus" link="/register" class="btn-ghost btn-sm" responsive />
                 <x-button label="Login" icon="o-lock-open" link="/login" class="btn-ghost btn-sm" responsive />
             @endif
@@ -49,8 +49,10 @@
                 {{-- User --}}
                 <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="pt-2">
                     <x-slot:actions>
-                        <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logout"
-                            @click="$dispatch('logout')" />
+                        @if (Route::currentRouteNamed('home'))
+                            <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logout" 54:
+                                @click="$dispatch('logout')" />
+                        @endif
                     </x-slot:actions>
                 </x-list-item>
 

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\UserRole;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Database\QueryException;
@@ -38,22 +39,27 @@ class EditBookForm extends Form
     public bool $isCoverRemoved = false;
     public Book $book;
 
-    public function fetchBook(string $uid): void
+    /**
+    * Fetch book record
+    *
+    * @param string $uid
+    * @throws \Exception
+    * @return Book
+    */
+    public function fetchBook(string $uid): Book
     {
-        try {
-            $book = Book::where('uid', $uid)->first();
-            if (!$book) {
-                throw new \Exception('Book not found');
-            }
-
-            $this->book = $book;
-            $this->title = $book->title;
-            $this->author = $book->author;
-            $this->description = $book->description;
-            $this->categoryIds = $book->categories->pluck('id')->toArray();
-        } catch (\Exception $e) {
-            throw new \Exception('An error occurred while fetching book');
+        $book = Book::where('uid', $uid)->first();
+        if (!$book) {
+            throw new \Exception('Book not found');
         }
+
+        $this->book = $book;
+        $this->title = $book->title;
+        $this->author = $book->author;
+        $this->description = $book->description;
+        $this->categoryIds = $book->categories->pluck('id')->toArray();
+
+        return $book;
     }
 
     /**
@@ -86,8 +92,8 @@ class EditBookForm extends Form
                 throw new \Exception('Book not found');
             }
 
-            if ($this->book->user_id !== $userId) {
-                throw new \Exception('Unauthorized');
+            if ($this->book->user_id !== $userId && auth()->user()->role !== UserRole::ADMIN) {
+                throw new \Exception('Can not update the book of another user');
             }
 
             if ($this->coverImage) {

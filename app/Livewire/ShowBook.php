@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\UserRole;
 use App\Models\Book;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\File;
@@ -24,13 +25,13 @@ class ShowBook extends Component
     {
         $user = auth()->user();
         if (!$user) {
-            abort(403);
+            throw new \Exception('Unauthenticated', 401);
         }
 
         $book = Book::where('uid', $uid)->firstOrFail();
 
-        if ($book->user_id !== $user->id) {
-            abort(403);
+        if ($book->user_id !== $user->id && $user->role !==  UserRole::ADMIN) {
+            throw new \Exception('Can not delete the book of another user', 403);
         }
 
         if ($book->cover_image && File::exists($book->cover_image)) {
@@ -66,8 +67,7 @@ class ShowBook extends Component
      */
     public function exception(\Exception $e, mixed $stopPropagation): void
     {
-        $this->error('An error occurred while deleting the book.');
-        $stopPropagation();
+        $this->error($e->getMessage(), redirectTo: '/');
     }
 
     /**
@@ -77,14 +77,18 @@ class ShowBook extends Component
      */
     public function mount(string $uid): void
     {
-        $user = auth()->user();
-        if ($user === null) {
-            abort(403);
-        }
+        try {
+            $user = auth()->user();
+            if ($user === null) {
+                throw new \Exception('Unauthenticated', 401);
+            }
 
-        $this->book = Book::where('uid', $uid)->firstOrFail();
-        if ($this->book->user_id !== $user->id) {
-            abort(403);
+            $this->book = Book::where('uid', $uid)->firstOrFail();
+            if ($this->book->user_id !== $user->id && $user->role !== UserRole::ADMIN) {
+                throw new \Exception('Can not view the book of another user', 403);
+            }
+        } catch (\Exception $e) {
+            $this->error($e->getMessage(), redirectTo: '/');
         }
     }
 

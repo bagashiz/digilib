@@ -1,6 +1,7 @@
 <div>
     <!-- HEADER -->
-    <x-header title="Your Books" separator progress-indicator>
+    <x-header title="{{ auth()->user()->role->value === 'admin' ? 'All Books' : 'Your Books' }}" separator
+        progress-indicator>
         <x-slot:middle class="!justify-end">
             <x-input placeholder="Search..." wire:model.live.debounce="search" clearable icon="o-magnifying-glass" />
         </x-slot:middle>
@@ -9,6 +10,9 @@
     <!-- TABLE  -->
     <x-card>
         <x-table :headers="$headers" :rows="$books" :sort-by="$sortBy">
+            @scope('cell_user', $book)
+                {{ $book->user->uid }}
+            @endscope
             @scope('cell_categories', $book)
                 @foreach ($book->categories as $category)
                     <div class="flex items-center justify-center">

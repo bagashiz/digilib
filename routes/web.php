@@ -35,7 +35,7 @@ Route::get('/settings', UserSettings::class)
 
 // Book routes
 Route::get('/books', AddBook::class)
-    ->middleware('auth')->name('books.create');
+    ->middleware('member')->name('books.create');
 Route::get('/books/{uid}', ShowBook::class)
     ->middleware('auth')->name('books.show');
 Route::get('/books/{uid}/edit', EditBook::class)
