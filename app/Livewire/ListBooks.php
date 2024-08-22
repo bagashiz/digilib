@@ -3,13 +3,16 @@
 namespace App\Livewire;
 
 use App\Enums\UserRole;
+use App\Exports\BooksDataExport;
 use App\Models\Book;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ListBooks extends Component
 {
@@ -138,6 +141,21 @@ class ListBooks extends Component
     }
 
     /**
+     * Export the books data
+     *
+     * @return Response | BinaryFileResponse
+     */
+    public function export(): Response | BinaryFileResponse
+    {
+        $user = auth()->user();
+        if (!$user) {
+            throw new \Exception('Unauthenticated', 401);
+        }
+
+        return (new BooksDataExport($user))->download(date('Y-m-d') . '-' . $user->uid . '-books.xlsx');
+    }
+
+    /**
     * Search based on category
     *
     * @param string $category
@@ -166,6 +184,18 @@ class ListBooks extends Component
     }
 
     /**
+     * Exception hook
+     *
+     * @param \Exception $e
+     * @param mixed $stopPropagation
+     */
+    public function exception(\Exception $e, mixed $stopPropagation): void
+    {
+        $this->error($e->getMessage());
+        $stopPropagation();
+    }
+
+    /**
      * Render the Livewire component.
      *
      * @return View
@@ -174,7 +204,7 @@ class ListBooks extends Component
     {
         return view('livewire.list-books', [
             'books' => $this->books(),
-            'headers' => $this->headers()
+            'headers' => $this->headers(),
         ]);
     }
 }

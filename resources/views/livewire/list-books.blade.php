@@ -31,4 +31,7 @@
         </x-table>
     </x-card>
 
+    <x-button label="Export" icon="o-document-arrow-down" class="btn-primary fixed right-5 bottom-5" wire:click="export"
+        spinner="export" responsive />
+
 </div>
