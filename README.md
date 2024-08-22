@@ -1,5 +1,9 @@
 # Digilib
 
+Basic digital library web application with user
+authentication and authorization, book management,
+and book export features. Built with [TALL stack](https://tallstack.dev/).
+
 This is a back-end developer skill test assignment
 for the Back-end Developer position at CTARSA Foundation,
 part of the [detik.com](https://www.detik.com/)'s
@@ -7,34 +11,75 @@ Kampus Merdeka Batch 7 internship program.
 
 ## Project Requirements
 
--   PHP (Native or Frameworks like Codeigniter/Laravel)
--   MySQL Database
--   HTML
--   CSS (Native or Frameworks)
--   JavaScript
+For the details of the project requirements,
+please refer to the [REQUIREMENTS.md](REQUIREMENTS).
 
-## Project Title
+## Tech Stack
 
-Website-based Digital Library
+-   [Laravel 11](https://laravel.com/)
+-   [Livewire](https://livewire.laravel.com/)
+-   [Tailwind CSS](https://tailwindcss.com/)
+-   [MaryUI](https://mary-ui.com/)
+-   [Laravel Excel](https://laravel-excel.com/)
+-   [MySQL 8](https://www.mysql.com/)
 
-## Test
+## Getting Started
 
-Create a CMS (Content Management System) for content management that includes:
+1. Ensure you have PHP 8.3 or later and the latest lts version of Node.js installed:
 
--   Login (Admin and User)
--   Register
--   List of Books
--   List of Books with a filter based on Book Category
--   Master Data Book Actions (Create, Read, Update, Delete and Upload File)
--   Book Data Form contains: Book Title, Book Category (dropdown), Description,
-    Quantity, Book File Upload (PDF) and Book Cover Upload (jpeg/jpg/png)
--   List of Book Categories
--   Master Data Book Category Actions (Create, Read, Update, and Delete)
--   Book Data Form contains: Book Category Name
--   Export Data (Excel/PDF) from Book Data
--   Access Rights (Privilege) are limited to only open, view, edit, and delete
-    the List of Books according to the data created by the user itself (except admin)
+    ```bash
+    php -v && node -v
+    ```
 
-## Final Format
+2. Create a copy of the `.env.example` file and rename it to `.env`:
 
-The project and database are collected in the form of .RAR or .ZIP in Google Drive.
+    ```bash
+    cp .env.example .env
+    ```
+
+    Update configuration values as needed.
+
+3. Install all dependencies, run docker compose,
+   create database schema, and run database migrations:
+
+    ````bash
+    composer install
+    npm install
+    php artisan key:generate
+    docker compose up -d
+    php artisan migrate
+    php artisan db:seed
+    ```
+
+    ````
+
+4. Run the project in development mode:
+
+    ```bash
+    php artisan serve
+    ```
+
+    and on other terminal:
+
+    ```bash
+    npm run dev
+    ```
+
+Open your browser and visit `http://localhost:8000`.
+
+## Screenshots
+
+![Register](./screenshots/1-register.png)
+![Login](./screenshots/2-login.png)
+![Dashboard](./screenshots/3-dashboard.png)
+![Users List](./screenshots/4-users-list.png)
+![Update Account](./screenshots/5-update-account.png)
+![Add Book](./screenshots/6-add-book.png)
+![Show Book](./screenshots/7-show-book.png)
+![Update Book](./screenshots/8-update-book.png)
+![Export Book](./screenshots/9-export-book.png)
+
+## License
+
+Digilib project is licensed under the [MIT License](LICENSE),
+providing an open and permissive licensing approach for further development and usage.
